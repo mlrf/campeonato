@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SeasonRequest;
-use App\models\Season;
+use App\models\Player;
 use Illuminate\Http\Request;
 
-class SeasonController extends ApiController
+class PlayerController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +14,9 @@ class SeasonController extends ApiController
      */
     public function index()
     {
-        $seasons=Season::all();
-        //return response()->json(['data'=>$seasons]);
-        return $this->showAll($seasons);
+        $players=Player::all();
+        return $this->showAll($players);
+
     }
 
     /**
@@ -36,19 +35,18 @@ class SeasonController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SeasonRequest $request){
-
-        $season=Season::create($request->all());
-        return $this->showOne($season,201);
+    public function store(Request $request)
+    {
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\models\Season  $season
+     * @param  \App\models\Player  $player
      * @return \Illuminate\Http\Response
      */
-    public function show(Season $season)
+    public function show(Player $player)
     {
         //
     }
@@ -56,10 +54,10 @@ class SeasonController extends ApiController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\models\Season  $season
+     * @param  \App\models\Player  $player
      * @return \Illuminate\Http\Response
      */
-    public function edit(Season $season)
+    public function edit(Player $player)
     {
         //
     }
@@ -68,10 +66,10 @@ class SeasonController extends ApiController
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\models\Season  $season
+     * @param  \App\models\Player  $player
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Season $season)
+    public function update(Request $request, Player $player)
     {
         //
     }
@@ -79,12 +77,11 @@ class SeasonController extends ApiController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\models\Season  $season
+     * @param  \App\models\Player  $player
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Season $season)
+    public function destroy(Player $player)
     {
-        $season->delete();
-        return $this->showOne($season);
+        //
     }
 }

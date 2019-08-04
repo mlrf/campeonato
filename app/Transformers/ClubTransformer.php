@@ -15,10 +15,10 @@ class ClubTransformer extends TransformerAbstract
     public function transform(Club $club)
     {
         return [
-            'club'=> (string)$club->name,
-            'address'=> (string)$club->address,
-            'fiscalNumber'=> (string)$club->vat,
-            'deletedDate'=>isset($club->deleted_at)? (string) $club->deleted_at:null,
+            'club' => (string)$club->name,
+            'address' => (string)$club->address,
+            'fiscalNumber' => (string)$club->vat,
+            'deletedDate' => isset($club->deleted_at) ? (string)$club->deleted_at : null,
 
         ];
     }

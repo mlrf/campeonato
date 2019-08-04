@@ -21,4 +21,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::resource('clubs','ClubController');
 Route::resource('users','UserController');
 Route::resource('seasons','SeasonController');
+Route::resource('players','PlayerController');
 Route::resource('clubs.players','ClubPlayerController',['only'=>['index']]);

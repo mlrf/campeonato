@@ -16,8 +16,10 @@ class PlayerTransformer extends TransformerAbstract
     {
         return [
             'player' => $player->name,
-            'shirt' => (string)$player->shirt_number,
-            'injured' => (boolean)$player->is_injured,
+            'shirt' => $player->shirt_number,
+            'injured' => $player->is_injured,
+            'deleted date' => isset($player->deleted_at) ? $player->deleted_at : "never deleted"
+
 
         ];
     }
