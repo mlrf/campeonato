@@ -4,7 +4,9 @@
 namespace App\Traits;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Validator;
 
 trait ApiResponser
 {
@@ -63,15 +65,44 @@ trait ApiResponser
     protected function filterData($collection, $transformer)
     {
         //loop throught every request parameter
-        foreach (request()->query() as $query=>$value){
-            $attribute=$transformer::originalAttributes($query);
+        foreach (request()->query() as $query => $value) {
+            $attribute = $transformer::originalAttributes($query);
         }
 
-        if (isset($attribute,$value)){
-            $collection=$collection->where($attribute,$value);
+        if (isset($attribute, $value)) {
+            $collection = $collection->where($attribute, $value);
         }
 
         return $collection;
+    }
+
+    protected function paginate(Collection $collection)
+    {
+        $rules = [
+            'per_page' => 'integer|min:2|max:50',
+        ];
+
+//      Classe Validator permite validar um request passando-lhe  $rules
+        Validator::make(request()->all(), $rules);
+
+        $page = LengthAwarePaginator::resolveCurrentPage();
+
+        $perPage = 5;
+
+        if (request()->has('per_page')) {
+            $perPage = (int)request()->per_page;
+
+        }
+
+        //slice the collection: //page 1 = page 0
+        $results = $collection->slice(($page - 1) * $perPage, $perPage)->values();
+
+        $paginated = new LengthAwarePaginator($results, $collection->count(), $perPage, $page, [
+            'path' => LengthAwarePaginator::resolveCurrentPath()
+        ]);
+
+        $paginated->appends(request()->all()); // Para incluir todos os parametros do request (ex: sort_by)
+        return $paginated;
     }
 }
 

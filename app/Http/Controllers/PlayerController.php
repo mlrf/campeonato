@@ -15,7 +15,8 @@ class PlayerController extends ApiController
     public function index()
     {
         $players=Player::all();
-        return $this->showAll($players);
+        //return $this->showAll($players);
+        return $this->paginate($players);
 
     }
 
