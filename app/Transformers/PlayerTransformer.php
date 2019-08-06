@@ -15,6 +15,7 @@ class PlayerTransformer extends TransformerAbstract
     public function transform(Player $player)
     {
         return [
+            'identifier'=>$player->id,
             'player' => $player->name,
             'shirt' => $player->shirt_number,
             'injured' => $player->is_injured,
@@ -22,5 +23,18 @@ class PlayerTransformer extends TransformerAbstract
 
 
         ];
+
+
+    }
+
+    public static function originalAttributes($index){
+        $attributes=[
+            'identifier' =>'id',
+            'player' => 'name',
+            'shirt' => 'shirt_number',
+            'injured' => 'is_injured',
+            'deleted date' => 'deleted_at'
+        ];
+        return isset($attributes[$index]) ? $attributes[$index] : null;
     }
 }

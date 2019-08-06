@@ -15,7 +15,16 @@ class SeasonTransformer extends TransformerAbstract
     public function transform(Season $season)
     {
         return [
+            'identifier'=> $season->id,
             'season' => $season->name,
         ];
+    }
+
+    public static function originalAttributes($index){
+        $attributes=[
+            'identifier'=>'id',
+            'season' => 'name',
+        ];
+        return isset($attributes[$index]) ? $attributes[$index] : null;
     }
 }

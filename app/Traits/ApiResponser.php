@@ -25,6 +25,10 @@ trait ApiResponser
         }
 
         $transformer = $collection->first()->transformer;// transforma o 1ºm para saber como é que se transforma
+
+        $collection = $this->filterData($collection, $transformer);//antes de transformar os dados
+        $collection = $this->sortData($collection, $transformer);//antes de transformar os dados
+
         $collection = $this->transformData($collection, $transformer);
 
 //        return $this->successResponse(['data' => $collection], $code);
@@ -45,5 +49,29 @@ trait ApiResponser
         return $transformation->toArray();
     }
 
+
+    protected function sortData(Collection $collection, $transformer)
+    {
+        if (request()->has('sort_by')) {
+            $attribute = $transformer::originalAttributes(request()->sort_by);//mapear atributos do url com os originais
+
+            $collection = $collection->sortBy($attribute);
+        }
+        return $collection;
+    }
+
+    protected function filterData($collection, $transformer)
+    {
+        //loop throught every request parameter
+        foreach (request()->query() as $query=>$value){
+            $attribute=$transformer::originalAttributes($query);
+        }
+
+        if (isset($attribute,$value)){
+            $collection=$collection->where($attribute,$value);
+        }
+
+        return $collection;
+    }
 }
 

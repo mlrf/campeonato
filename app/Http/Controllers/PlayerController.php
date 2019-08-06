@@ -48,7 +48,7 @@ class PlayerController extends ApiController
      */
     public function show(Player $player)
     {
-        //
+        return $this->showOne($player);
     }
 
     /**
