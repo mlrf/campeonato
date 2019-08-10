@@ -19,9 +19,7 @@ class PlayerTransformer extends TransformerAbstract
             'player' => $player->name,
             'shirt' => $player->shirt_number,
             'injured' => $player->is_injured,
-            'deleted date' => isset($player->deleted_at) ? $player->deleted_at : "never deleted"
-
-
+            'deletedDate' => isset($player->deleted_at) ? $player->deleted_at : "never deleted"
         ];
 
 
@@ -33,7 +31,7 @@ class PlayerTransformer extends TransformerAbstract
             'player' => 'name',
             'shirt' => 'shirt_number',
             'injured' => 'is_injured',
-            'deleted date' => 'deleted_at'
+            'deletedDate' => 'deleted_at'
         ];
         return isset($attributes[$index]) ? $attributes[$index] : null;
     }

@@ -18,6 +18,10 @@ class SeasonController extends ApiController
         $seasons=Season::all();
         //return response()->json(['data'=>$seasons]);
         return $this->showAll($seasons);
+
+        //cache
+
+
     }
 
     /**

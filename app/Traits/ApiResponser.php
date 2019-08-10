@@ -3,7 +3,9 @@
 
 namespace App\Traits;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Filesystem\Cache;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
@@ -30,11 +32,12 @@ trait ApiResponser
 
         $collection = $this->filterData($collection, $transformer);//antes de transformar os dados
         $collection = $this->sortData($collection, $transformer);//antes de transformar os dados
-
+        $collection = $this->paginate($collection);
         $collection = $this->transformData($collection, $transformer);
 
+
 //        return $this->successResponse(['data' => $collection], $code);
-        return $this->successResponse($collection, $code);
+        return $this->cacheResponse($collection);
     }
 
     protected function showOne(Model $instance, $code = 200)
@@ -87,7 +90,7 @@ trait ApiResponser
 
         $page = LengthAwarePaginator::resolveCurrentPage();
 
-        $perPage = 5;
+        $perPage = 3;
 
         if (request()->has('per_page')) {
             $perPage = (int)request()->per_page;
@@ -103,6 +106,24 @@ trait ApiResponser
 
         $paginated->appends(request()->all()); // Para incluir todos os parametros do request (ex: sort_by)
         return $paginated;
+    }
+
+    protected function cacheResponse($data)
+    {
+        $url=request()->url();
+        $queryParams=request()->query(); //saca parametros do get
+
+
+        ksort($queryParams); //ordena os parametros do url (o user pode colocar primeiro o sort_by e depois a page ou ao contrário mas a cache tem de agir igual para os dois)
+        $queryString= http_build_query($queryParams);
+
+        $fullUrl="{$url}?{$queryString}";
+        //dd($fullUrl);
+
+        return cache()->remember($fullUrl, Carbon::now()->addMinutes(2), function () use($data) {
+            return $data;
+        });
+
     }
 }
 

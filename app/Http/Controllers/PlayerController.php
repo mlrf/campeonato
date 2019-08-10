@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\models\Player;
+// use App\Repository\Players; assim dá erro
+//use Facades\App\Repository\Players;
+
+
 use Illuminate\Http\Request;
 
 class PlayerController extends ApiController
@@ -14,9 +18,17 @@ class PlayerController extends ApiController
      */
     public function index()
     {
+
         $players=Player::all();
-        //return $this->showAll($players);
-        return $this->paginate($players);
+        return $this->showAll($players);
+
+        //return $this->paginate($players);
+
+
+        //cache using the repository folder
+
+//        $players=Players::all("name");
+//        return response()->json(['data'=>$players]);
 
     }
 
@@ -49,7 +61,11 @@ class PlayerController extends ApiController
      */
     public function show(Player $player)
     {
-        return $this->showOne($player);
+        //return $this->showOne($player);
+
+        //cache using the Players repository
+
+        return Players::get($player->id);
     }
 
     /**
@@ -83,6 +99,8 @@ class PlayerController extends ApiController
      */
     public function destroy(Player $player)
     {
-        //
+        $player->delete();
+
+        return response()->json(['data' => "player deleted"], 200);
     }
 }
