@@ -22,4 +22,7 @@ Route::resource('clubs','ClubController');
 Route::resource('users','UserController');
 Route::resource('seasons','SeasonController');
 Route::resource('players','PlayerController');
-Route::resource('clubs.players','ClubPlayerController',['only'=>['index']]);
+Route::resource('club.players','ClubPlayerController',['only'=>['index']]);
+Route::resource('player.club','PlayerClubController',['only'=>['index']]);
+
+Route::post('oauth/ token', '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken ');

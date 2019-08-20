@@ -17,7 +17,7 @@ class Player extends Model
 
     public $timestamps = false;
 
-    public function getClub(){
+    public function club(){
         return $this->belongsTo('App\models\Club');
     }
 }

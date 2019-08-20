@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
 
         factory(App\models\Club::class,3)->create();
         factory(App\models\Player::class,50)->create();
+        factory(App\models\Season::class,10)->create();
 
     }
 }

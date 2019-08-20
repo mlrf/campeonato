@@ -15,6 +15,12 @@ class ClubController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        parent::__construct(); //ativa middleware auth com o guard api (auth:api)
+    }
+
     public function index()
     {
        $clubs = Club::all();

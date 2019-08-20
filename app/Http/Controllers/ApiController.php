@@ -10,5 +10,10 @@ class ApiController extends Controller
 {
     use ApiResponser; //Trait
 
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     //
 }

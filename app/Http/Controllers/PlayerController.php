@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\models\Player;
+
 // use App\Repository\Players; assim dá erro
 //use Facades\App\Repository\Players;
 
@@ -16,10 +17,19 @@ class PlayerController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
+
+
+    public function __construct()
+    {
+        parent::__construct(); //ativa middleware auth com o routeMiddleware api (que por sua vez usa o guard passport
+
+        $this->middleware('client.credentials')->only(['index']);
+    }
+
     public function index()
     {
 
-        $players=Player::all();
+        $players = Player::all();
         return $this->showAll($players);
 
         //return $this->paginate($players);
@@ -45,7 +55,7 @@ class PlayerController extends ApiController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -56,22 +66,22 @@ class PlayerController extends ApiController
     /**
      * Display the specified resource.
      *
-     * @param  \App\models\Player  $player
+     * @param \App\models\Player $player
      * @return \Illuminate\Http\Response
      */
     public function show(Player $player)
     {
-        //return $this->showOne($player);
+        return $this->showOne($player);
 
         //cache using the Players repository
 
-        return Players::get($player->id);
+        //return Players::get($player->id);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\models\Player  $player
+     * @param \App\models\Player $player
      * @return \Illuminate\Http\Response
      */
     public function edit(Player $player)
@@ -82,8 +92,8 @@ class PlayerController extends ApiController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\models\Player  $player
+     * @param \Illuminate\Http\Request $request
+     * @param \App\models\Player $player
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Player $player)
@@ -94,7 +104,7 @@ class PlayerController extends ApiController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\models\Player  $player
+     * @param \App\models\Player $player
      * @return \Illuminate\Http\Response
      */
     public function destroy(Player $player)

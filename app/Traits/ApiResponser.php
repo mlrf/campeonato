@@ -90,7 +90,7 @@ trait ApiResponser
 
         $page = LengthAwarePaginator::resolveCurrentPage();
 
-        $perPage = 3;
+        $perPage = 20;
 
         if (request()->has('per_page')) {
             $perPage = (int)request()->per_page;
@@ -120,7 +120,9 @@ trait ApiResponser
         $fullUrl="{$url}?{$queryString}";
         //dd($fullUrl);
 
-        return cache()->remember($fullUrl, Carbon::now()->addMinutes(2), function () use($data) {
+        cache()->clear();
+
+        return cache()->remember($fullUrl, Carbon::now()->addMinutes(1), function () use($data) {
             return $data;
         });
 

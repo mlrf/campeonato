@@ -15,17 +15,29 @@ class ClubTransformer extends TransformerAbstract
     public function transform(Club $club)
     {
         return [
-            'identifier'=>(string) $club->id,
+            'identifier' => (string)$club->id,
             'club' => (string)$club->name,
             'address' => (string)$club->address,
             'fiscalNumber' => (string)$club->vat,
             'deletedDate' => isset($club->deleted_at) ? (string)$club->deleted_at : null,
 
+            //HATEOAS
+
+            'links' => [
+                'rel' => 'self',
+                'href' => route('clubs.show', $club->id),
+            ],
+            [
+                'rel' => 'club.players',
+                'href' => route('club.players.index', $club->id),
+            ],
+
         ];
     }
 
-    public static function originalAttributes($index){
-        $attributes=[
+    public static function originalAttributes($index)
+    {
+        $attributes = [
             'club' => 'name',
             'address' => 'address',
             'fiscalNumber' => 'vat',

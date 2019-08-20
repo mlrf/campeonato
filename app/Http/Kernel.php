@@ -5,6 +5,9 @@ namespace App\Http;
 use App\Http\Middleware\CustomThrottleRequests;
 use App\Http\Middleware\SignatureMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Illuminate\Support\Facades\App;
+use Laravel\Passport\Http\Middleware\CheckClientCredentials;
+use Laravel\Passport\Passport;
 
 class Kernel extends HttpKernel
 {
@@ -63,12 +66,14 @@ class Kernel extends HttpKernel
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
+        'client.credentials' => CheckClientCredentials::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
 //        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'throttle' => CustomThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'signature' =>SignatureMiddleware::class
+        'signature' =>SignatureMiddleware::class,
+        'transform.input' => \App\Http\Middleware\TransformInput::class,
     ];
 
     /**

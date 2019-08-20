@@ -1,5 +1,6 @@
 <?php
 
+use Laravel\Passport\PassportServiceProvider;
 use Spatie\Fractal\Fractal;
 
 return [
@@ -169,6 +170,7 @@ return [
          * Package Service Providers...
          */
 
+        PassportServiceProvider::class,
         Spatie\Fractal\FractalServiceProvider::class,
         /*
          * Application Service Providers...

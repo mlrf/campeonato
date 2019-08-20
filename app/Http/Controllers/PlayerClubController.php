@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\models\Club;
+use App\models\Player;
 use Illuminate\Http\Request;
 
-class ClubPlayerController extends ApiController
+class PlayerClubController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     public function __construct()
     {
         parent::__construct(); //ativa middleware auth com o guard api (auth:api)
@@ -19,11 +20,13 @@ class ClubPlayerController extends ApiController
 
     public function index($id)
     {
-        //Para um determinado club, obter os respetivos players
+        //
+        $player=Player::findOrFail($id);
 
-        $players=Club::findOrFail($id)->players;
-        return $this->showAll($players,200);
+        $club=$player->club;
 
+        // retornar também o player,ie,um json com outro objeto json lá dentro
+        return response()->json(['data'=>$club]);
     }
 
     /**
@@ -50,10 +53,10 @@ class ClubPlayerController extends ApiController
     /**
      * Display the specified resource.
      *
-     * @param  \App\models\Club  $club
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Club $club)
+    public function show($id)
     {
         //
     }
@@ -61,10 +64,10 @@ class ClubPlayerController extends ApiController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\models\Club  $club
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Club $club)
+    public function edit($id)
     {
         //
     }
@@ -73,10 +76,10 @@ class ClubPlayerController extends ApiController
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\models\Club  $club
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Club $club)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -84,10 +87,10 @@ class ClubPlayerController extends ApiController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\models\Club  $club
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Club $club)
+    public function destroy($id)
     {
         //
     }
