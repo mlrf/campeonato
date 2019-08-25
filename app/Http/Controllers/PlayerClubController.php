@@ -15,7 +15,7 @@ class PlayerClubController extends Controller
 
     public function __construct()
     {
-        parent::__construct(); //ativa middleware auth com o guard api (auth:api)
+//        parent::__construct(); //ativa middleware auth com o guard api (auth:api)
     }
 
     public function index($id)

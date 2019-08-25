@@ -27,7 +27,7 @@ class SeasonController extends ApiController
     {
        // parent::__construct(); // para ativar auth.api middleware
 
-        $this->middleware('auth.credentials')->only(['index','show']);
+        $this->middleware('client.credentials')->only(['index','show']);
         $this->middleware('auth.api')->except(['index','show']);
 
         $this->middleware('transform.input:' . SeasonTransformer::class)->only(['store','update']);
